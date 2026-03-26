@@ -369,15 +369,15 @@
     .hbi-text { display: flex; flex-direction: column; }
     .hbi-label {
       font-size: 0.68rem;
-      color: rgba(255,255,255,0.38);
-      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       font-weight: 500;
     }
     .hbi-value {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.82);
-      font-weight: 500;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.88);
+      font-weight: 600;
     }
 
     /* ============================================================
@@ -432,15 +432,15 @@
        SERVICES
     ============================================================ */
     .services {
-      padding: 6rem 5%;
+      padding: 4rem 5% 5rem;
       background: var(--ash);
     }
     .services-head {
       max-width: 1200px;
-      margin: 0 auto 3.5rem;
+      margin: 0 auto 2.5rem;
     }
     .services-head h2 { color: var(--text-dark); max-width: 560px; }
-    .services-head p  { color: var(--text-mid); margin-top: 0.75rem; max-width: 480px; }
+    .services-head p  { color: var(--text-mid); margin-top: 0.75rem; max-width: 540px; }
 
     .services-grid {
       display: grid;
@@ -454,10 +454,13 @@
     }
     .svc {
       background: var(--white);
-      padding: 2rem 1.6rem;
+      padding: 2rem 1.8rem 2.2rem;
       position: relative;
       overflow: hidden;
       transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
     .svc::before {
       content: '';
@@ -508,7 +511,7 @@
        WHY AUROPS
     ============================================================ */
     .why {
-      padding: 6rem 5%;
+      padding: 5rem 5%;
       background: var(--void-mid);
     }
     .why-inner { max-width: 1200px; margin: 0 auto; }
@@ -526,7 +529,7 @@
       font-size: 3.2rem;
       font-weight: 800;
       color: var(--orange);
-      opacity: 0.18;
+      opacity: 0.35;
       line-height: 1;
       margin-bottom: 0.4rem;
     }
@@ -543,7 +546,7 @@
     }
     .why-item p {
       font-size: 0.87rem;
-      color: rgba(255,255,255,0.48);
+      color: rgba(255,255,255,0.58);
       line-height: 1.68;
     }
 
@@ -551,7 +554,7 @@
        CONTACT
     ============================================================ */
     .contact {
-      padding: 6rem 5%;
+      padding: 5rem 5%;
       background: var(--white);
     }
     .contact-inner {
@@ -755,8 +758,7 @@
     @media (max-width: 1024px) {
       .services-grid { grid-template-columns: repeat(3, 1fr); }
       .why-grid      { grid-template-columns: repeat(2, 1fr); }
-      .footer-inner  { grid-template-columns: 1fr 1fr; }
-      .footer-brand  { grid-column: 1 / -1; }
+      .footer-inner  { grid-template-columns: 1fr 1fr 1fr; }
     }
     @media (max-width: 768px) {
       .nav-links     { display: none; }
@@ -764,8 +766,7 @@
       .services-grid { grid-template-columns: repeat(2, 1fr); }
       .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .form-row      { grid-template-columns: 1fr; }
-      .footer-inner  { grid-template-columns: 1fr; gap: 2rem; }
-      .footer-brand  { grid-column: auto; }
+      .footer-inner  { grid-template-columns: 1fr; gap: 1.5rem; }
       .footer-bottom { flex-direction: column; text-align: center; }
       .emergency     { flex-direction: column; gap: 12px; }
       .hero-buttons  { flex-direction: column; align-items: flex-start; }
@@ -964,8 +965,8 @@
 
       <div class="svc fade-up d1">
         <div class="svc-icon">
-          <!-- award / badge — Citroën specialist -->
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          <!-- shield-check — authorized Citroën specialist -->
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
         </div>
         <h3>Diagnostika Citroën</h3>
         <p>Plná diagnostika vozidel Citroën — specializovaný software, originální přístupy k systémům.</p>
@@ -1010,8 +1011,8 @@
 
       <div class="svc fade-up d2">
         <div class="svc-icon">
-          <!-- maximize / frame — windshield -->
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          <!-- windshield trapezoid + wiper arc -->
+          <svg viewBox="0 0 24 24"><path d="M3 18L6 6h12l3 12H3z"/><path d="M8 13Q12 10 16 13" stroke-linecap="round"/></svg>
         </div>
         <h3>Výměna autoskel</h3>
         <p>Profesionální výměna čelních, zadních i bočních skel s garancí kvality a správného utěsnění.</p>
