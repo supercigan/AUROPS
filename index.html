@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUROPS s.r.o. — Kompletní servis vozidel</title>
+  <meta name="description" content="AUROPS s.r.o. — profesionální autoservis, diagnostika OBD, geometrie 3D, karoserie, klimatizace a havárijní odtahová služba 24/7. Ideální poměr cena–výkon.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CSS VARIABLES
+    ============================================================ */
+    :root {
+      --void:       #0C0E12;
+      --void-mid:   #141720;
+      --void-soft:  #1C2030;
+      --orange:     #F05F2E;
+      --orange-d:   #C94A1F;
+      --orange-l:   #FEF0EA;
+      --orange-ll:  #FFF9F6;
+      --ash:        #F2F4F8;
+      --ash-d:      #E4E8F0;
+      --white:      #FFFFFF;
+      --text-dark:  #0C0E12;
+      --text-mid:   #4A5168;
+      --text-light: #8890A4;
+      --border:     #DDE2EC;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { overflow-x: hidden; scroll-behavior: smooth; }
+    body  {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      color: var(--text-dark);
+      background: var(--white);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+    img   { display: block; max-width: 100%; }
+    a     { color: inherit; text-decoration: none; }
+    ul    { list-style: none; }
+    button { cursor: pointer; font-family: inherit; border: none; }
+
+    /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+    h1, h2, h3, h4 { font-family: 'Sora', sans-serif; line-height: 1.15; }
+    h1 { font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 800; }
+    h2 { font-size: clamp(2rem,   3.8vw, 3rem);   font-weight: 700; }
+    h3 { font-size: clamp(1rem,   1.8vw, 1.15rem); font-weight: 700; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.2rem;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--orange);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--orange-d);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(240,95,46,0.38);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.28);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       FADE-UP ANIMATION
+    ============================================================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
+    .d3 { transition-delay: 0.3s; }
+    .d4 { transition-delay: 0.4s; }
+    .d5 { transition-delay: 0.5s; }
+    .d6 { transition-delay: 0.6s; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 5%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    nav.scrolled {
+      background: var(--void);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.45);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--orange);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon svg { width: 22px; height: 22px; }
+    .logo-text {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      padding: 10px 22px !important;
+      background: var(--orange) !important;
+      color: var(--white) !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--orange-d) !important; color: var(--white) !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px; left: 0; right: 0;
+      background: var(--void);
+      padding: 24px 5%;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--orange); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      min-height: 100vh;
+      background: var(--void);
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 120px 5% 80px;
+      overflow: hidden;
+    }
+
+    /* Animated diagonal speed lines */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -200px;
+      background-image: repeating-linear-gradient(
+        -62deg,
+        transparent 0px,
+        transparent 46px,
+        rgba(255,255,255,0.016) 46px,
+        rgba(255,255,255,0.016) 48px
+      );
+      animation: speedLines 14s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes speedLines {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(120px, 120px); }
+    }
+
+    /* Diagonal orange accent — right side */
+    .hero-shape {
+      position: absolute;
+      right: 0; top: 0;
+      width: 52%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 38%, rgba(240,95,46,0.055) 100%);
+      clip-path: polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%);
+      pointer-events: none;
+    }
+    /* Subtle orange glow bottom-right */
+    .hero-glow {
+      position: absolute;
+      right: -100px;
+      bottom: -150px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(240,95,46,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(240,95,46,0.1);
+      border: 1px solid rgba(240,95,46,0.22);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--orange);
+      letter-spacing: 0.07em;
+      margin-bottom: 2rem;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: blink 2.2s ease infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.45; transform: scale(0.65); }
+    }
+
+    .hero h1 {
+      color: var(--white);
+      margin-bottom: 1.2rem;
+      max-width: 720px;
+    }
+    .hero h1 .accent { color: var(--orange); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.1rem);
+      color: rgba(255,255,255,0.55);
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      line-height: 1.72;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 3.8rem;
+    }
+
+    .hero-bottom {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .hbi {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hbi-icon {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hbi-icon svg {
+      width: 17px; height: 17px;
+      stroke: var(--orange); fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .hbi-text { display: flex; flex-direction: column; }
+    .hbi-label {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.38);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .hbi-value {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.82);
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       EMERGENCY STRIP
+    ============================================================ */
+    .emergency {
+      background: var(--orange);
+      padding: 18px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .emg-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .emg-label svg {
+      width: 22px; height: 22px;
+      stroke: var(--white); fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .emg-phones {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .emg-phone {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      transition: opacity 0.2s;
+    }
+    .emg-phone:hover { opacity: 0.82; }
+    .emg-sep {
+      width: 1px; height: 22px;
+      background: rgba(255,255,255,0.38);
+    }
+
+    /* ============================================================
+       SERVICES
+    ============================================================ */
+    .services {
+      padding: 6rem 5%;
+      background: var(--ash);
+    }
+    .services-head {
+      max-width: 1200px;
+      margin: 0 auto 3.5rem;
+    }
+    .services-head h2 { color: var(--text-dark); max-width: 560px; }
+    .services-head p  { color: var(--text-mid); margin-top: 0.75rem; max-width: 480px; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .svc {
+      background: var(--white);
+      padding: 2rem 1.6rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .svc::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--orange);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s ease;
+    }
+    .svc:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+      z-index: 2;
+    }
+    .svc:hover::before { transform: scaleY(1); }
+
+    .svc-icon {
+      width: 46px; height: 46px;
+      background: var(--orange-l);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .svc-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--orange); fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .svc h3 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.45rem;
+    }
+    .svc p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       WHY AUROPS
+    ============================================================ */
+    .why {
+      padding: 6rem 5%;
+      background: var(--void-mid);
+    }
+    .why-inner { max-width: 1200px; margin: 0 auto; }
+    .why-head  { margin-bottom: 3.5rem; }
+    .why-head h2 { color: var(--white); max-width: 480px; }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.5rem;
+    }
+    .why-item {}
+    .why-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: var(--orange);
+      opacity: 0.18;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .why-bar {
+      width: 28px; height: 2px;
+      background: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .why-item h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+    .why-item p {
+      font-size: 0.87rem;
+      color: rgba(255,255,255,0.48);
+      line-height: 1.68;
+    }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    .contact {
+      padding: 6rem 5%;
+      background: var(--white);
+    }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .cinfo h2 { color: var(--text-dark); margin-bottom: 1.4rem; }
+    .cinfo > p { color: var(--text-mid); margin-bottom: 2.2rem; line-height: 1.72; }
+
+    .cinfo-items { display: flex; flex-direction: column; gap: 1.2rem; }
+    .cinfo-item  { display: flex; align-items: flex-start; gap: 14px; }
+    .cinfo-icon  {
+      width: 44px; height: 44px;
+      background: var(--orange-l);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cinfo-icon svg {
+      width: 20px; height: 20px;
+      stroke: var(--orange); fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .cinfo-lbl {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 3px;
+    }
+    .cinfo-val {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .cinfo-val a { transition: color 0.2s; }
+    .cinfo-val a:hover { color: var(--orange); }
+
+    /* Form */
+    .cform-wrap {
+      background: var(--ash);
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+    .cform-wrap h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 1.6rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .fg { margin-bottom: 1.2rem; }
+    .fg label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+    }
+    .fg input,
+    .fg select,
+    .fg textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.94rem;
+      color: var(--text-dark);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .fg input:focus,
+    .fg select:focus,
+    .fg textarea:focus { border-color: var(--orange); }
+    .fg textarea { resize: vertical; min-height: 116px; }
+
+    .form-btn {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+      margin-top: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+    .form-btn:hover { background: var(--orange-d); transform: translateY(-2px); }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 1rem;
+    }
+    .form-success-icon {
+      width: 56px; height: 56px;
+      background: var(--orange-l);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+    }
+    .form-success-icon svg {
+      width: 28px; height: 28px;
+      stroke: var(--orange); fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .form-success h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .form-success p { color: var(--text-mid); font-size: 0.9rem; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--void);
+      padding: 3.5rem 5% 2rem;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-brand p {
+      font-size: 0.86rem;
+      color: rgba(255,255,255,0.4);
+      max-width: 280px;
+      line-height: 1.7;
+      margin-top: 1rem;
+    }
+    .footer-col h4 {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      margin-bottom: 1.1rem;
+    }
+    .footer-col li { margin-bottom: 0.65rem; }
+    .footer-col a {
+      font-size: 0.87rem;
+      color: rgba(255,255,255,0.52);
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--orange); }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 1.6rem auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .footer-bottom p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.28);
+    }
+    .footer-bottom a { color: rgba(255,255,255,0.42); transition: color 0.2s; }
+    .footer-bottom a:hover { color: var(--orange); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(3, 1fr); }
+      .why-grid      { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner  { grid-template-columns: 1fr 1fr; }
+      .footer-brand  { grid-column: 1 / -1; }
+    }
+    @media (max-width: 768px) {
+      .nav-links     { display: none; }
+      .hamburger     { display: flex; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row      { grid-template-columns: 1fr; }
+      .footer-inner  { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-brand  { grid-column: auto; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .emergency     { flex-direction: column; gap: 12px; }
+      .hero-buttons  { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .why-grid      { grid-template-columns: 1fr; }
+      .hero-bottom   { gap: 20px; }
+      .cform-wrap    { padding: 1.8rem 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================
+       NAV
+  ========================= -->
+  <nav id="nav">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <!-- Stylized A / chevron icon -->
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 3L19.5 18H2.5L11 3Z" fill="white" fill-opacity="0.92"/>
+          <path d="M11 9L14.5 16H7.5L11 9Z" fill="#F05F2E"/>
+        </svg>
+      </div>
+      <span class="logo-text">AUROPS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#sluzby">Služby</a></li>
+      <li><a href="#proc-my">Proč my</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="tel:774200480" class="nav-cta">Zavolat</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Otevřít menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sluzby">Služby</a>
+    <a href="#proc-my">Proč my</a>
+    <a href="#kontakt">Kontakt</a>
+    <a href="tel:774200480">Zavolat — 774 200 480</a>
+  </div>
+
+  <!-- ========================
+       HERO
+  ========================= -->
+  <section class="hero" id="hero">
+    <div class="hero-shape"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+
+      <div class="hero-badge fade-up">
+        <span class="badge-dot"></span>
+        AUROPS s.r.o. — Autoservis &amp; Havárijní služba
+      </div>
+
+      <h1 class="fade-up d1">
+        Kompletní servis<br>vašeho <span class="accent">vozidla</span>
+      </h1>
+
+      <p class="hero-sub fade-up d2">
+        Diagnostika, geometrie 3D, karoserie, klimatizace<br>
+        a havárijní odtahová služba. Ideální poměr cena–výkon.
+      </p>
+
+      <div class="hero-buttons fade-up d3">
+        <a href="#sluzby" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+          Naše služby
+        </a>
+        <a href="#kontakt" class="btn btn-ghost">Nezávazná poptávka</a>
+      </div>
+
+      <div class="hero-bottom fade-up d4">
+        <div class="hbi">
+          <div class="hbi-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.06 2.18 2 2 0 012 .04h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <div class="hbi-text">
+            <span class="hbi-label">Havárie 24/7</span>
+            <span class="hbi-value">774 200 480</span>
+          </div>
+        </div>
+        <div class="hbi">
+          <div class="hbi-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="hbi-text">
+            <span class="hbi-label">Provozní doba</span>
+            <span class="hbi-value">Po–Pá, 7:00–17:00</span>
+          </div>
+        </div>
+        <div class="hbi">
+          <div class="hbi-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="hbi-text">
+            <span class="hbi-label">Certifikovaný partner</span>
+            <span class="hbi-value">UH CAR, s.r.o.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================
+       EMERGENCY STRIP
+  ========================= -->
+  <div class="emergency">
+    <div class="emg-label">
+      <svg viewBox="0 0 24 24">
+        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Havárie? Volejte ihned:
+    </div>
+    <div class="emg-phones">
+      <a href="tel:774200480" class="emg-phone">774 200 480</a>
+      <div class="emg-sep"></div>
+      <a href="tel:777200497" class="emg-phone">777 200 497</a>
+    </div>
+  </div>
+
+  <!-- ========================
+       SERVICES
+  ========================= -->
+  <section class="services" id="sluzby">
+    <div class="services-head">
+      <div class="section-label fade-up">Naše služby</div>
+      <h2 class="fade-up d1">Vše pro vaše vozidlo<br>na jednom místě</h2>
+      <p class="fade-up d2">Od pravidelné údržby až po náročné opravy — kompletní péče o váš vůz.</p>
+    </div>
+
+    <div class="services-grid">
+
+      <!-- Row 1 -->
+      <div class="svc fade-up">
+        <div class="svc-icon">
+          <!-- search / magnifying glass -->
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>Předprodejní prohlídka</h3>
+        <p>Posoudíme technický stav vozu před koupí — odhalíme skryté závady a ušetříme starosti.</p>
+      </div>
+
+      <div class="svc fade-up d1">
+        <div class="svc-icon">
+          <!-- tool / wrench -->
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3>Kompletní servis</h3>
+        <p>Pravidelná údržba, výměna olejů a filtrů dle předpisu výrobce. Spokojenost zaručena.</p>
+      </div>
+
+      <div class="svc fade-up d2">
+        <div class="svc-icon">
+          <!-- crosshair / target — 3D geometry -->
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+        </div>
+        <h3>Geometrie kol 3D</h3>
+        <p>Přesné seřízení geometrie moderní 3D technologií. Prodloužení životnosti pneumatik i podvozku.</p>
+      </div>
+
+      <div class="svc fade-up d3">
+        <div class="svc-icon">
+          <!-- sliders — shock absorbers / suspension -->
+          <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        </div>
+        <h3>Tlumiče a podvozek</h3>
+        <p>Test a výměna tlumičů, komplexní kontrola podvozkového systému a bezpečnostní posouzení.</p>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="svc fade-up">
+        <div class="svc-icon">
+          <!-- monitor / PC diagnostics -->
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>PC Diagnostika OBD</h3>
+        <p>Čtení a mazání chybových kódů motorové jednotky a řídicích systémů (E-OBD, OBD II).</p>
+      </div>
+
+      <div class="svc fade-up d1">
+        <div class="svc-icon">
+          <!-- award / badge — Citroën specialist -->
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+        <h3>Diagnostika Citroën</h3>
+        <p>Plná diagnostika vozidel Citroën — specializovaný software, originální přístupy k systémům.</p>
+      </div>
+
+      <div class="svc fade-up d2">
+        <div class="svc-icon">
+          <!-- layers — multi-brand -->
+          <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <h3>Multi-brand diagnostika</h3>
+        <p>Diagnostika pro Škoda, VW, Seat, Audi, Ford a Renault — jeden servis pro vaši značku.</p>
+      </div>
+
+      <div class="svc fade-up d3">
+        <div class="svc-icon">
+          <!-- edit / paint — bodywork -->
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Karoserie a lak</h3>
+        <p>Opravy povrchových i hlubokých poškození. Lakování, tmelení, vyklepávání karoserie.</p>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="svc fade-up">
+        <div class="svc-icon">
+          <!-- zap / lightning — electrical -->
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>Elektroinstalace</h3>
+        <p>Opravy palubní elektroniky, startérů, alternátorů a kompletní elektroinstalace vozidla.</p>
+      </div>
+
+      <div class="svc fade-up d1">
+        <div class="svc-icon">
+          <!-- wind — air conditioning -->
+          <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
+        </div>
+        <h3>Klimatizace</h3>
+        <p>Plnění, čištění a dezinfekce klimatizačního systému. Rychlý servis, připravíme vůz na léto.</p>
+      </div>
+
+      <div class="svc fade-up d2">
+        <div class="svc-icon">
+          <!-- maximize / frame — windshield -->
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3>Výměna autoskel</h3>
+        <p>Profesionální výměna čelních, zadních i bočních skel s garancí kvality a správného utěsnění.</p>
+      </div>
+
+      <div class="svc fade-up d3">
+        <div class="svc-icon">
+          <!-- link / chain — towing equipment -->
+          <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <h3>Tažná zařízení</h3>
+        <p>Montáž, servis a homologace tažných zařízení. Připravíme vůz na karavany i přívěsy.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================
+       WHY AUROPS
+  ========================= -->
+  <section class="why" id="proc-my">
+    <div class="why-inner">
+      <div class="why-head">
+        <div class="section-label fade-up">Proč AUROPS</div>
+        <h2 class="fade-up d1">Servis, na který<br>se spolehneš</h2>
+      </div>
+      <div class="why-grid">
+
+        <div class="why-item fade-up">
+          <div class="why-num">01</div>
+          <div class="why-bar"></div>
+          <h3>Transparentní ceny</h3>
+          <p>Cenu znáte předem — žádné překvapení při vyzvednutí vozu. Ideální poměr cena–výkon vždy na prvním místě.</p>
+        </div>
+
+        <div class="why-item fade-up d1">
+          <div class="why-num">02</div>
+          <div class="why-bar"></div>
+          <h3>Moderní vybavení</h3>
+          <p>3D geometrie kol, diagnostika OBD II, specializovaný software pro všechny hlavní evropské značky.</p>
+        </div>
+
+        <div class="why-item fade-up d2">
+          <div class="why-num">03</div>
+          <div class="why-bar"></div>
+          <h3>Havárijní služba 24/7</h3>
+          <p>Jsme tu, když to nejvíc potřebujete — pomoc na místě nehody, odtah a havárijní asistence kdykoli.</p>
+        </div>
+
+        <div class="why-item fade-up d3">
+          <div class="why-num">04</div>
+          <div class="why-bar"></div>
+          <h3>Komplexní péče</h3>
+          <p>Od předprodejní prohlídky po kompletní opravu po nehodě — vše pod jednou střechou, jeden kontakt.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       CONTACT
+  ========================= -->
+  <section class="contact" id="kontakt">
+    <div class="contact-inner">
+
+      <div class="cinfo fade-up">
+        <div class="section-label">Kontakt</div>
+        <h2>Jak nás<br>kontaktovat</h2>
+        <p>Potřebujete servis, máte dotaz nebo jste se ocitli v havárii? Neváhejte — jsme tu pro vás.</p>
+        <div class="cinfo-items">
+
+          <div class="cinfo-item">
+            <div class="cinfo-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.06 2.18 2 2 0 012 .04h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="cinfo-lbl">Havárie &amp; odtah (24/7)</div>
+              <div class="cinfo-val">
+                <a href="tel:774200480">774 200 480</a>
+                &nbsp;/&nbsp;
+                <a href="tel:777200497">777 200 497</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="cinfo-item">
+            <div class="cinfo-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="cinfo-lbl">Provozní doba</div>
+              <div class="cinfo-val">Pondělí – Pátek: 7:00–17:00</div>
+            </div>
+          </div>
+
+          <div class="cinfo-item">
+            <div class="cinfo-icon">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div>
+              <div class="cinfo-lbl">Servisní partner</div>
+              <div class="cinfo-val">
+                <a href="https://uhcar.cz" target="_blank" rel="noopener">UH CAR, s.r.o.</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cform-wrap fade-up d2">
+        <h3>Nezávazná poptávka</h3>
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="fg">
+              <label for="name">Jméno a příjmení</label>
+              <input type="text" id="name" name="name" placeholder="Jan Novák" required>
+            </div>
+            <div class="fg">
+              <label for="phone">Telefon</label>
+              <input type="tel" id="phone" name="phone" placeholder="777 123 456" required>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="jan.novak@email.cz">
+          </div>
+          <div class="fg">
+            <label for="service">Typ služby</label>
+            <select id="service" name="service">
+              <option value="">— Vyberte službu —</option>
+              <option>Předprodejní prohlídka</option>
+              <option>Kompletní servis</option>
+              <option>Geometrie kol 3D</option>
+              <option>Tlumiče a podvozek</option>
+              <option>PC Diagnostika OBD</option>
+              <option>Diagnostika Citroën</option>
+              <option>Multi-brand diagnostika</option>
+              <option>Karoserie a lak</option>
+              <option>Elektroinstalace</option>
+              <option>Klimatizace</option>
+              <option>Výměna autoskel</option>
+              <option>Tažné zařízení</option>
+              <option>Havárie / odtah</option>
+              <option>Jiná služba</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="msg">Zpráva</label>
+            <textarea id="msg" name="msg" placeholder="Popište, s čím potřebujete pomoci…"></textarea>
+          </div>
+          <button type="submit" class="form-btn">Odeslat poptávku →</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h4>Zpráva odeslána!</h4>
+          <p>Ozveme se vám co nejdříve, obvykle do 24 hodin v pracovní dny.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================
+       FOOTER
+  ========================= -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 3L19.5 18H2.5L11 3Z" fill="white" fill-opacity="0.92"/>
+              <path d="M11 9L14.5 16H7.5L11 9Z" fill="#F05F2E"/>
+            </svg>
+          </div>
+          <span class="logo-text">AUROPS</span>
+        </a>
+        <p>Kompletní servis vozidel v ideálním poměru cena–výkon. Havárijní asistence dostupná 24 hodin denně, 7 dní v týdnu.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigace</h4>
+        <ul>
+          <li><a href="#hero">Úvod</a></li>
+          <li><a href="#sluzby">Služby</a></li>
+          <li><a href="#proc-my">Proč my</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:774200480">774 200 480</a></li>
+          <li><a href="tel:777200497">777 200 497</a></li>
+          <li><a href="https://uhcar.cz" target="_blank" rel="noopener">uhcar.cz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 AUROPS s.r.o. — Všechna práva vyhrazena</p>
+      <p>Servisní partner: <a href="https://uhcar.cz" target="_blank" rel="noopener">UH CAR, s.r.o.</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // ========================
+    // NAV SCROLL
+    // ========================
+    const navEl = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      navEl.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ========================
+    // HAMBURGER
+    // ========================
+    const hbtn  = document.getElementById('hamburger');
+    const mmenu = document.getElementById('mobileMenu');
+    hbtn.addEventListener('click', () => {
+      const open = mmenu.classList.toggle('open');
+      hbtn.setAttribute('aria-expanded', open);
+    });
+    mmenu.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => mmenu.classList.remove('open'))
+    );
+
+    // ========================
+    // FADE-UP
+    // ========================
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ========================
+    // CONTACT FORM
+    // ========================
+    const form    = document.getElementById('contactForm');
+    const success = document.getElementById('formSuccess');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name  = form.querySelector('#name').value.trim();
+      const phone = form.querySelector('#phone').value.trim();
+      if (!name || !phone) {
+        alert('Prosím vyplňte jméno a telefonní číslo.');
+        return;
+      }
+      form.style.display = 'none';
+      success.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
