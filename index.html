@@ -1272,5 +1272,28 @@
       success.style.display = 'block';
     });
   </script>
+
+  <!-- WATERMARK -->
+  <div id="watermark" style="position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- tmavý text — viditelný na světlém pozadí -->
+        <pattern id="wm-dark" x="0" y="0" width="280" height="150" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+          <text x="12" y="65"
+            font-family="Outfit, Arial, sans-serif" font-size="12.5" font-weight="500"
+            fill="rgba(0,0,0,0.09)" letter-spacing="0.05em">Demoverze – Tomáš Smolík</text>
+        </pattern>
+        <!-- světlý text — viditelný na tmavém pozadí -->
+        <pattern id="wm-light" x="0" y="0" width="280" height="150" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+          <text x="12" y="65"
+            font-family="Outfit, Arial, sans-serif" font-size="12.5" font-weight="500"
+            fill="rgba(255,255,255,0.09)" letter-spacing="0.05em">Demoverze – Tomáš Smolík</text>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#wm-dark)"/>
+      <rect width="100%" height="100%" fill="url(#wm-light)"/>
+    </svg>
+  </div>
+  <!-- END WATERMARK -->
 </body>
 </html>
